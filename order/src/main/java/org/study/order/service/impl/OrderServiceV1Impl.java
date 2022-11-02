@@ -19,9 +19,9 @@ import org.study.utils.resp.Result;
 
 import java.math.BigDecimal;
 
-@Service
+@Service("orderServiceV1")
 @Slf4j
-public class OrderServiceImpl implements OrderService {
+public class OrderServiceV1Impl implements OrderService {
     @Autowired
     private OrderMapper orderMapper;
     @Autowired
@@ -35,7 +35,7 @@ public class OrderServiceImpl implements OrderService {
         if (orderParams.isEmpty()) {
             throw new RuntimeException("参数异常：" + JSONObject.toJSONString(orderParams));
         }
-        User user = restTemplate.getForObject("http://localhost:8080/user/get/" + orderParams.getUserId(), User.class);
+        User user = restTemplate.getForObject("http://localhost:8060/user/get/" + orderParams.getUserId(), User.class);
         if (user == null) {
             throw new RuntimeException("用户不存在：" + JSONObject.toJSONString(orderParams));
         }
