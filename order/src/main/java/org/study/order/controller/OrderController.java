@@ -71,15 +71,13 @@ public class OrderController {
         return "success6";
     }
 
-    @GetMapping(value = "/test_request")
+    @GetMapping(value = "/test/request")
     public String testRequest() {
-        log.info("test_request");
-        return "test";
+        return "test request";
     }
 
-    @GetMapping(value = "/test_sentinel")
+    @GetMapping(value = "/test/sentinel")
     public String testSentinel() {
-        log.info("test_sentinel");
-        return "test";
+        return "test sentinel";
     }
 }
