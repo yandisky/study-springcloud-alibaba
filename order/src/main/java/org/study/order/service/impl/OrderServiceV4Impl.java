@@ -20,10 +20,15 @@ import org.study.utils.constants.HttpCode;
 import org.study.utils.resp.Result;
 
 import java.math.BigDecimal;
+import java.util.List;
+import java.util.Random;
 
-@Service("orderServiceV2")
+/**
+ * Ribbon负载均衡
+ */
+@Service("orderServiceV4")
 @Slf4j
-public class OrderServiceV2Impl implements OrderService {
+public class OrderServiceV4Impl implements OrderService {
     @Autowired
     private OrderMapper orderMapper;
     @Autowired
@@ -32,13 +37,6 @@ public class OrderServiceV2Impl implements OrderService {
     private RestTemplate restTemplate;
     private String userServer = "server-user";
     private String productServer = "server-product";
-    @Autowired
-    private DiscoveryClient discoveryClient;
-
-    private String getServiceUrl(String serviceName) {
-        ServiceInstance serviceInstance = discoveryClient.getInstances(serviceName).get(0);
-        return serviceInstance.getHost() + ":" + serviceInstance.getPort();
-    }
 
     @Override
     @Transactional(rollbackFor = Exception.class)
@@ -46,13 +44,11 @@ public class OrderServiceV2Impl implements OrderService {
         if (orderParams.isEmpty()) {
             throw new RuntimeException("参数异常：" + JSONObject.toJSONString(orderParams));
         }
-        String userUrl = getServiceUrl(userServer);
-        User user = restTemplate.getForObject("http://" + userUrl + "/user/get/" + orderParams.getUserId(), User.class);
+        User user = restTemplate.getForObject("http://" + userServer + "/user/get/" + orderParams.getUserId(), User.class);
         if (user == null) {
             throw new RuntimeException("用户不存在：" + JSONObject.toJSONString(orderParams));
         }
-        String productUrl = getServiceUrl(productServer);
-        Product product = restTemplate.getForObject("http://" + productUrl + "/product/get/" + orderParams.getProductId(), Product.class);
+        Product product = restTemplate.getForObject("http://" + productServer + "/product/get/" + orderParams.getProductId(), Product.class);
         if (product == null) {
             throw new RuntimeException("商品不存在：" + JSONObject.toJSONString(orderParams));
         }
@@ -75,7 +71,7 @@ public class OrderServiceV2Impl implements OrderService {
         orderItem.setProPrice(product.getProPrice());
         orderItemMapper.insert(orderItem);
 
-        Result<Integer> result = restTemplate.getForObject("http://" + productUrl + "/product/update_count/" + orderParams.getProductId() + "/" + orderParams.getCount(), Result.class);
+        Result<Integer> result = restTemplate.getForObject("http://" + productServer + "/product/update_count/" + orderParams.getProductId() + "/" + orderParams.getCount(), Result.class);
         if (result.getCode() != HttpCode.SUCCESS) {
             throw new RuntimeException("库存扣减失败");
         }

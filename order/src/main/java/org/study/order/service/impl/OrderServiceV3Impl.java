@@ -20,10 +20,15 @@ import org.study.utils.constants.HttpCode;
 import org.study.utils.resp.Result;
 
 import java.math.BigDecimal;
+import java.util.List;
+import java.util.Random;
 
-@Service("orderServiceV2")
+/**
+ * 自定义负载均衡
+ */
+@Service("orderServiceV3")
 @Slf4j
-public class OrderServiceV2Impl implements OrderService {
+public class OrderServiceV3Impl implements OrderService {
     @Autowired
     private OrderMapper orderMapper;
     @Autowired
@@ -36,7 +41,9 @@ public class OrderServiceV2Impl implements OrderService {
     private DiscoveryClient discoveryClient;
 
     private String getServiceUrl(String serviceName) {
-        ServiceInstance serviceInstance = discoveryClient.getInstances(serviceName).get(0);
+        List<ServiceInstance> instances = discoveryClient.getInstances(serviceName);
+        int index = new Random().nextInt(instances.size());
+        ServiceInstance serviceInstance = instances.get(index);
         return serviceInstance.getHost() + ":" + serviceInstance.getPort();
     }
 
