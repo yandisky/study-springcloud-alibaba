@@ -31,33 +31,55 @@ public class OrderController {
     @Qualifier(value = "orderServiceV5")
     private OrderService orderServiceV5;
 
+    @Autowired
+    @Qualifier(value = "orderServiceV6")
+    private OrderService orderServiceV6;
+
     @GetMapping(value = "/submit_order_v1")
     public String submitOrderV1(OrderParams orderParams) {
         orderServiceV1.saveOrder(orderParams);
-        return "success";
+        return "success1";
     }
 
     @GetMapping(value = "/submit_order_v2")
     public String submitOrderV2(OrderParams orderParams) {
         orderServiceV2.saveOrder(orderParams);
-        return "success";
+        return "success2";
     }
 
     @GetMapping(value = "/submit_order_v3")
     public String submitOrderV3(OrderParams orderParams) {
         orderServiceV3.saveOrder(orderParams);
-        return "success";
+        return "success3";
     }
 
     @GetMapping(value = "/submit_order_v4")
     public String submitOrderV4(OrderParams orderParams) {
         orderServiceV4.saveOrder(orderParams);
-        return "success";
+        return "success4";
     }
 
     @GetMapping(value = "/submit_order_v5")
     public String submitOrderV5(OrderParams orderParams) {
         orderServiceV5.saveOrder(orderParams);
-        return "success";
+        return "success5";
+    }
+
+    @GetMapping(value = "/submit_order_v6")
+    public String submitOrderV6(OrderParams orderParams) {
+        orderServiceV6.saveOrder(orderParams);
+        return "success6";
+    }
+
+    @GetMapping(value = "/test_request")
+    public String testRequest() {
+        log.info("test_request");
+        return "test";
+    }
+
+    @GetMapping(value = "/test_sentinel")
+    public String testSentinel() {
+        log.info("test_sentinel");
+        return "test";
     }
 }

@@ -7,7 +7,7 @@ import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
 import org.springframework.cloud.openfeign.EnableFeignClients;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 
-@SpringBootApplication
+@SpringBootApplication(scanBasePackages = "org.study.*")
 @EnableTransactionManagement(proxyTargetClass = true)
 @MapperScan(value = {"org.study.order.mapper"})
 @EnableDiscoveryClient

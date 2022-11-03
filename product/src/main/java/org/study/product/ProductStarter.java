@@ -6,7 +6,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 
-@SpringBootApplication
+@SpringBootApplication(scanBasePackages = "org.study.*")
 @EnableTransactionManagement(proxyTargetClass = true)
 @MapperScan(value = {"org.study.product.mapper"})
 @EnableDiscoveryClient
