@@ -35,6 +35,10 @@ public class OrderController {
     @Qualifier(value = "orderServiceV6")
     private OrderService orderServiceV6;
 
+    @Autowired
+    @Qualifier(value = "orderServiceV7")
+    private OrderService orderServiceV7;
+
     @GetMapping(value = "/submit_order_v1")
     public String submitOrderV1(OrderParams orderParams) {
         orderServiceV1.saveOrder(orderParams);
@@ -79,5 +83,11 @@ public class OrderController {
     @GetMapping(value = "/test/sentinel")
     public String testSentinel() {
         return "test sentinel";
+    }
+
+    @GetMapping(value = "/submit_order_v7")
+    public String submitOrderV7(OrderParams orderParams) {
+        orderServiceV7.saveOrder(orderParams);
+        return "success6";
     }
 }
