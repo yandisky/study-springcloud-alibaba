@@ -39,6 +39,10 @@ public class OrderController {
     @Qualifier(value = "orderServiceV7")
     private OrderService orderServiceV7;
 
+    @Autowired
+    @Qualifier(value = "orderServiceV8")
+    private OrderService orderServiceV8;
+
     @GetMapping(value = "/submit_order_v1")
     public String submitOrderV1(OrderParams orderParams) {
         orderServiceV1.saveOrder(orderParams);
@@ -89,5 +93,11 @@ public class OrderController {
     public String submitOrderV7(OrderParams orderParams) {
         orderServiceV7.saveOrder(orderParams);
         return "success7";
+    }
+
+    @GetMapping(value = "/submit_order_v8")
+    public String submitOrderV8(OrderParams orderParams) {
+        orderServiceV8.saveOrder(orderParams);
+        return "success8";
     }
 }
