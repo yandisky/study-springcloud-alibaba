@@ -88,6 +88,6 @@ public class OrderController {
     @GetMapping(value = "/submit_order_v7")
     public String submitOrderV7(OrderParams orderParams) {
         orderServiceV7.saveOrder(orderParams);
-        return "success6";
+        return "success7";
     }
 }
